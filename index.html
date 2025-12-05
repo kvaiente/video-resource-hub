@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Resource Hub - Interactive Wizard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            opacity: 0.95;
+            font-size: 16px;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e5e7eb;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .chat-container {
+            padding: 30px;
+            min-height: 450px;
+            max-height: 550px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.assistant {
+            text-align: left;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message-content {
+            display: inline-block;
+            padding: 16px 20px;
+            border-radius: 12px;
+            max-width: 80%;
+            text-align: left;
+        }
+
+        .message.assistant .message-content {
+            background: #f3f4f6;
+            color: #1f2937;
+            border: 1px solid #e5e7eb;
+        }
+
+        .message.user .message-content {
+            background: #667eea;
+            color: white;
+        }
+
+        .question-label {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-weight: 500;
+            padding: 0 10px;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 16px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .option-btn::before {
+            content: '→';
+            position: absolute;
+            right: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .option-btn:hover::before {
+            opacity: 1;
+        }
+
+        .resources-section {
+            margin-top: 10px;
+        }
+
+        .resources-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .resources-header h3 {
+            color: #1f2937;
+            margin-bottom: 8px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resources-header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .resources-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .resource-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .resource-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .resource-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .resource-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .resource-content {
+            flex: 1;
+        }
+
+        .resource-title {
+            color: #667eea;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .resource-description {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            padding: 8px 16px;
+            border: 1px solid #667eea;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .restart-btn {
+            margin-top: 25px;
+            background: #667eea;
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .restart-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 15px 20px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background: #9ca3af;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.6;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .chat-container {
+                padding: 20px;
+                max-height: 400px;
+            }
+
+            .option-btn {
+                padding: 14px 18px;
+                font-size: 15px;
+            }
+
+            .resource-card {
+                padding: 16px;
+            }
+        }
+
+        .badge {
+            background: #10b981;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📹 Video Resource Hub</h1>
+            <p>Your intelligent guide to video production resources</p>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        <div class="chat-container" id="chatContainer"></div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 📝 INSTRUCTIONS TO ADD YOUR LINKS:
+        // ============================================================
+        // 1. Find each "link:" below (marked with 🔗)
+        // 2. Replace "REPLACE-WITH-YOUR-LINK" with your actual Google Drive, 
+        //    SharePoint, or web link
+        // 3. To get a Google Drive link:
+        //    - Right-click file → Get link → Change to "Anyone with link"
+        //    - Copy and paste that link here
+        // 4. Save this file and re-upload to Google Drive
+        // ============================================================
+
+        // Resource database - CUSTOMIZE YOUR LINKS HERE
+        const resources = {
+            productionPlanning: [
+                {
+                    title: "Video Production Planning Guide",
+                    description: "Complete walkthrough for planning video shoots, including checklists and timelines",
+                    icon: "📋",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Budget Template & Calculator",
+                    description: "Excel template for estimating production costs and resource allocation",
+                    icon: "💰",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Location Scouting Checklist",
+                    description: "What to look for when selecting filming locations",
+                    icon: "📍",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Pre-Production Timeline Template",
+                    description: "Gantt chart template for scheduling your pre-production phase",
+                    icon: "📅",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                }
+            ],
+            productionExecution: [
+                {
+                    title: "On-Set Best Practices",
+                    description: "Day-of-shoot guidelines for crew and talent management",
+                    icon: "🎬",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Equipment Setup Guides",
+                    description: "Step-by-step equipment configuration for different shoot types",
+                    icon: "📷",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Shot List Templates",
+                    description: "Customizable templates for organizing your shooting schedule",
+                    icon: "📝",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Safety Protocols Checklist",
+                    description: "Essential safety measures for on-set production",
+                    icon: "🦺",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                }
+            ],
+            postProductionEditing: [
+                {
+                    title: "Video Editing Workflow",
+                    description: "Standard operating procedure for editing projects from rough cut to final",
+                    icon: "✂️",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Brand Style Guide",
+                    description: "Visual identity standards for video content including colors, fonts, and logos",
+                    icon: "🎨",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Music & Audio Library Access",
+                    description: "How to access and license approved audio assets",
+                    icon: "🎵",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Color Grading Guide",
+                    description: "Best practices and presets for consistent color grading",
+                    icon: "🌈",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                }
+            ],
+            postProductionReview: [
+                {
+                    title: "Review & Approval Process",
+                    description: "Steps for submitting videos for stakeholder review and getting sign-off",
+                    icon: "👀",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Feedback Collection Tool Guide",
+                    description: "How to use Frame.io or other platforms for gathering timestamped comments",
+                    icon: "💬",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Version Control Best Practices",
+                    description: "Naming conventions and file organization for video revisions",
+                    icon: "🔄",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                }
+            ],
+            distributionSocial: [
+                {
+                    title: "Social Media Video Specs",
+                    description: "Platform-specific requirements and best practices for Instagram, TikTok, YouTube, LinkedIn",
+                    icon: "📱",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Captioning & Accessibility Standards",
+                    description: "Requirements for making videos accessible to all audiences including subtitle guidelines",
+                    icon: "♿",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Posting Schedule Template",
+                    description: "Content calendar for coordinating video releases across platforms",
+                    icon: "📆",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Thumbnail Design Guide",
+                    description: "Best practices for creating compelling video thumbnails",
+                    icon: "🖼️",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                }
+            ],
+            distributionInternal: [
+                {
+                    title: "Internal Video Portal Guide",
+                    description: "How to upload and manage videos on the company intranet or portal",
+                    icon: "🏢",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Email Campaign Video Guidelines",
+                    description: "Best practices for embedding videos in email communications",
+                    icon: "📧",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Employee Communications Checklist",
+                    description: "Ensuring internal videos meet messaging and branding standards",
+                    icon: "✅",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                }
+            ],
+            compliance: [
+                {
+                    title: "Video Compliance Checklist",
+                    description: "Legal and regulatory requirements before publishing video content",
+                    icon: "⚖️",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Talent Release Forms",
+                    description: "Required documentation for people appearing in videos",
+                    icon: "📄",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Copyright & Licensing Guide",
+                    description: "Understanding rights for music, stock footage, and other media",
+                    icon: "©️",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Data Privacy Decision Tree",
+                    description: "Interactive tool to determine if your video content requires privacy review",
+                    icon: "🔒",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Brand Usage Guidelines",
+                    description: "Approved use of company logos, trademarks, and brand assets",
+                    icon: "™️",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                }
+            ],
+            troubleshooting: [
+                {
+                    title: "Common Technical Issues FAQ",
+                    description: "Quick fixes for frequent production and post-production problems",
+                    icon: "🔧",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Emergency Contact List",
+                    description: "Who to reach for urgent technical or creative support",
+                    icon: "📞",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Equipment Repair Request Form",
+                    description: "Submit broken or malfunctioning equipment for service",
+                    icon: "🛠️",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                },
+                {
+                    title: "Video File Format Converter Guide",
+                    description: "How to convert between different video formats and codecs",
+                    icon: "🔄",
+                    link: "REPLACE-WITH-YOUR-LINK" // 🔗 ADD YOUR LINK HERE
+                }
+            ]
+        };
+
+        // Conversation state
+        let conversationState = {
+            step: 0,
+            selectedCategory: null,
+            history: []
+        };
+
+        const chatContainer = document.getElementById('chatContainer');
+        const progressBar = document.getElementById('progressBar');
+
+        // Conversation flow
+        const conversation = {
+            0: {
+                message: "Hi! 👋 I'm here to help you find the right video resources. What do you need help with today?",
+                options: [
+                    { text: "🎬 Planning or producing a new video", next: 1 },
+                    { text: "✂️ Editing and post-production", next: 2 },
+                    { text: "📤 Distributing or publishing a video", next: 3 },
+                    { text: "⚖️ Compliance and legal requirements", category: "compliance" },
+                    { text: "🔧 Technical issues or troubleshooting", category: "troubleshooting" }
+                ]
+            },
+            1: {
+                message: "Great! Are you in the planning phase or ready to shoot?",
+                options: [
+                    { text: "📋 Planning stage - I need to prep", category: "productionPlanning" },
+                    { text: "🎥 Ready to shoot - I need on-set guidance", category: "productionExecution" }
+                ]
+            },
+            2: {
+                message: "Got it! What part of post-production are you working on?",
+                options: [
+                    { text: "✂️ Editing the video", category: "postProductionEditing" },
+                    { text: "👀 Review and approval process", category: "postProductionReview" }
+                ]
+            },
+            3: {
+                message: "Where are you planning to publish this video?",
+                options: [
+                    { text: "📱 Social media platforms", category: "distributionSocial" },
+                    { text: "🏢 Internal communications", category: "distributionInternal" }
+                ]
+            }
+        };
+
+        function updateProgress() {
+            const maxSteps = 3;
+            const currentProgress = Math.min(conversationState.history.length, maxSteps);
+            const percentage = (currentProgress / maxSteps) * 100;
+            progressBar.style.width = percentage + '%';
+        }
+
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = text;
+            
+            messageDiv.appendChild(contentDiv);
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message assistant';
+            typingDiv.id = 'typingIndicatorMessage';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'typing-indicator';
+            contentDiv.innerHTML = '<span></span><span></span><span></span>';
+            
+            typingDiv.appendChild(contentDiv);
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicatorMessage');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        function displayResources(category) {
+            const resourceList = resources[category];
+            
+            const categoryNames = {
+                productionPlanning: "Production Planning",
+                productionExecution: "Production Execution",
+                postProductionEditing: "Post-Production Editing",
+                postProductionReview: "Post-Production Review",
+                distributionSocial: "Distribution - Social Media",
+                distributionInternal: "Distribution - Internal",
+                compliance: "Compliance & Legal",
+                troubleshooting: "Troubleshooting & Support"
+            };
+            
+            const resourcesSection = document.createElement('div');
+            resourcesSection.className = 'resources-section';
+            
+            const header = document.createElement('div');
+            header.className = 'resources-header';
+            header.innerHTML = `
+                <h3>📚 Recommended Resources</h3>
+                <p>${categoryNames[category]} - ${resourceList.length} resources available</p>
+            `;
+            resourcesSection.appendChild(header);
+            
+            const grid = document.createElement('div');
+            grid.className = 'resources-grid';
+            
+            resourceList.forEach(resource => {
+                const card = document.createElement('div');
+                card.className = 'resource-card';
+                
+                const isPlaceholder = resource.link.includes('REPLACE-WITH-YOUR-LINK');
+                
+                card.innerHTML = `
+                    <div class="resource-header">
+                        <div class="resource-icon">${resource.icon}</div>
+                        <div class="resource-content">
+                            <div class="resource-title">
+                                ${resource.title}
+                                ${isPlaceholder ? '<span class="badge">Demo</span>' : ''}
+                            </div>
+                            <div class="resource-description">${resource.description}</div>
+                            <a href="${resource.link}" class="resource-link" target="_blank" rel="noopener">
+                                ${isPlaceholder ? '📝 Add Your Link' : '📄 View Resource'} →
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+            
+            resourcesSection.appendChild(grid);
+            
+            const restartBtn = document.createElement('button');
+            restartBtn.className = 'restart-btn';
+            restartBtn.textContent = '🔄 Start Over';
+            restartBtn.onclick = restart;
+            resourcesSection.appendChild(restartBtn);
+            
+            chatContainer.appendChild(resourcesSection);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showOptions(optionsData) {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-label';
+            const currentStep = conversation[conversationState.step];
+            if (currentStep && currentStep.message) {
+                questionDiv.textContent = currentStep.message;
+                chatContainer.appendChild(questionDiv);
+            }
+            
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            
+            optionsData.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option.text;
+                button.onclick = () => handleOption(option);
+                optionsDiv.appendChild(button);
+            });
+            
+            chatContainer.appendChild(optionsDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function handleOption(option) {
+            // Clear current question and options
+            const questionLabels = chatContainer.querySelectorAll('.question-label');
+            questionLabels.forEach(label => label.remove());
+            const optionDivs = chatContainer.querySelectorAll('.options');
+            optionDivs.forEach(div => div.remove());
+            
+            // Add user's choice as message
+            addMessage(option.text, true);
+            conversationState.history.push(option.text);
+            updateProgress();
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                removeTypingIndicator();
+                
+                if (option.category) {
+                    // Display resources
+                    conversationState.selectedCategory = option.category;
+                    displayResources(option.category);
+                } else if (option.next !== undefined) {
+                    // Move to next step
+                    conversationState.step = option.next;
+                    const nextStep = conversation[option.next];
+                    
+                    if (nextStep) {
+                        showOptions(nextStep.options);
+                    }
+                }
+            }, 800);
+        }
+
+        function restart() {
+            conversationState = {
+                step: 0,
+                selectedCategory: null,
+                history: []
+            };
+            chatContainer.innerHTML = '';
+            updateProgress();
+            init();
+        }
+
+        function init() {
+            const welcome = conversation[0];
+            showOptions(welcome.options);
+        }
+
+        // Start the conversation
+        init();
+    </script>
+</body>
+</html>
