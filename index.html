@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Resource Hub - Interactive Wizard Pilot</title>
+    <title>Video Resource Hub - Interactive Wizard</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0A66C2 0%, #004182 100%);
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -31,7 +31,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0A66C2 0%, #004182 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -57,7 +57,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            background: linear-gradient(90deg, #0A66C2, #004182);
             transition: width 0.3s ease;
             width: 0%;
         }
@@ -108,7 +108,7 @@
         }
 
         .message.user .message-content {
-            background: #667eea;
+            background: #0A66C2;
             color: white;
         }
 
@@ -128,8 +128,8 @@
 
         .option-btn {
             background: white;
-            border: 2px solid #667eea;
-            color: #667eea;
+            border: 2px solid #0A66C2;
+            color: #0A66C2;
             padding: 16px 24px;
             border-radius: 10px;
             cursor: pointer;
@@ -142,10 +142,10 @@
         }
 
         .option-btn:hover {
-            background: #667eea;
+            background: #0A66C2;
             color: white;
             transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3);
         }
 
         .option-btn::before {
@@ -166,7 +166,7 @@
 
         .resources-header {
             padding: 20px;
-            background: linear-gradient(135deg, #667eea15, #764ba215);
+            background: linear-gradient(135deg, #0A66C215, #00418215);
             border-radius: 8px;
             margin-bottom: 20px;
         }
@@ -200,8 +200,8 @@
         }
 
         .resource-card:hover {
-            border-color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            border-color: #0A66C2;
+            box-shadow: 0 4px 12px rgba(10, 102, 194, 0.15);
             transform: translateY(-2px);
         }
 
@@ -222,7 +222,7 @@
         }
 
         .resource-title {
-            color: #667eea;
+            color: #0A66C2;
             font-size: 17px;
             font-weight: 600;
             margin-bottom: 6px;
@@ -241,25 +241,25 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: #667eea;
+            color: #0A66C2;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             margin-top: 10px;
             padding: 8px 16px;
-            border: 1px solid #667eea;
+            border: 1px solid #0A66C2;
             border-radius: 6px;
             transition: all 0.3s ease;
         }
 
         .resource-link:hover {
-            background: #667eea;
+            background: #0A66C2;
             color: white;
         }
 
         .restart-btn {
             margin-top: 25px;
-            background: #667eea;
+            background: #0A66C2;
             color: white;
             padding: 14px 28px;
             border: none;
@@ -272,9 +272,9 @@
         }
 
         .restart-btn:hover {
-            background: #5568d3;
+            background: #084d94;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3);
         }
 
         .typing-indicator {
@@ -338,22 +338,12 @@
                 padding: 16px;
             }
         }
-
-        .badge {
-            background: #10b981;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📹 Video Resource Hub Pilot</h1>
+            <h1>📹 Video Resource Hub</h1>
             <p>Your guide to video production resources</p>
         </div>
         <div class="progress-bar">
@@ -363,223 +353,113 @@
     </div>
 
     <script>
-        // ============================================================
-        // 📝 INSTRUCTIONS TO ADD YOUR LINKS:
-        // ============================================================
-        // 1. Find each "link:" below (marked with 🔗)
-        // 2. Replace "REPLACE-WITH-YOUR-LINK" with your actual Google Drive, 
-        //    SharePoint, or web link
-        // 3. To get a Google Drive link:
-        //    - Right-click file → Get link → Change to "Anyone with link"
-        //    - Copy and paste that link here
-        // 4. Save this file and re-upload to Google Drive
-        // ============================================================
-
-        // Resource database - CUSTOMIZE YOUR LINKS HERE
-       const resources = {
-    productionPlanning: [
-        {
-            title: "Video Content Frameworks",
-            description: "Guidelines for producing video content",
-            icon: "📋",
-            link: "https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:40312da5-b0d8-4956-bd5c-e48578228dbc"
-        },
-        {
-            title: "Video Tool Guide",
-            description: "All tools & resources to produce videos",
-            icon: "💰",
-            link: "https://microsoft-my.sharepoint.com/:p:/g/personal/lfair_linkedin_biz/IQAX5l5HYifdQIH6eYWmYIclASgRR1fazW-ZaIci4AytbDE?e=fOAR3z"
-        },
-        {
-            title: "LinkedIn Filming Locations",
-            description: "What to look for when selecting filming locations",
-            icon: "📍",
-            link: "https://docs.google.com/document/d/1lNCfzfeksfqLQfUk4EwYBn3KQwHBUjj5dSHort3FuWE/edit?usp=sharing"
-        },
-        {
-            title: "Editorial Best Practices",
-            description: "Guidance from Editorial",
-            icon: "📅",
-            link: "https://drive.google.com/file/d/1Z5xr75NJUuGaV3PQQMYd_RyE7IQs4AJG/view?usp=sharing"
-        }
-    ],
-    productionExecution: [
-        {
-            title: "Video Scripting Tips",
-            description: "Tips for video scripting",
-            icon: "🎬",
-            link: "https://drive.google.com/file/d/1r4VW9YCeLofKDpt3U0NM9qNOgLS0e7Fr/view?usp=drive_link"
-        },
-        {
-            title: "Video Components",
-            description: "Video elements to make your production shine",
-            icon: "📷",
-            link: "https://drive.google.com/file/d/186wlcfYEJ98-aKLfsDuUqTnhSf8Sx_Nd/view?usp=drive_link"
-        },
-        {
-            title: "Phone Video Recording Tips",
-            description: "Get the best out of your phone video recording",
-            icon: "📝",
-            link: "https://drive.google.com/file/d/1bcXhpx4ERy-SUrTRu-8RuVvrymSZ0tT4/view?usp=drive_link"
-        },
-        {
-            title: "Mobile Equipment & Filming Guide",
-            description: "Essential equipment and techniques for mobile filming",
-            icon: "🦺",
-            link: "https://docs.google.com/document/d/18CD_7hdN2WAZdG2wbTeOKGcjIioJsCxOs47KkW1g6mg/edit?usp=sharing"
-        }
-    ],
-    postProductionEditing: [
-        {
-            title: "Video Editing Tips",
-            description: "Help on editing when you need it",
-            icon: "✂️",
-            link: "https://drive.google.com/file/d/1XX0pvpNgwy45OpmVwDtHMdutWFXbWaMO/view?usp=drive_link"
-        },
-        {
-            title: "Brand Style Guide",
-            description: "Visual identity standards for video content including colors, fonts, and logos",
-            icon: "🎨",
-            link: "https://microsoft.sharepoint.com/teams/LinkedInBrandHome/Pages/Assets-guidelines.aspx"
-        },
-        {
-            title: "Music & Audio",
-            description: "Approved audio assets",
-            icon: "🎵",
-            link: "https://microsoft.sharepoint.com/teams/LinkedInBrandHome/Pages/Brand-elements-music.aspx"
-        },
-        {
-            title: "Brand B-Roll Video",
-            description: "Great assets from Brand",
-            icon: "🌈",
-            link: "https://microsoft.sharepoint.com/teams/LinkedInBrandHome/Pages/search-videos.aspx"
-        }
-    ],
-    postProductionReview: [
-        {
-            title: "Review & Approval Process",
-            description: "Steps for submitting videos for stakeholder review and getting sign-off",
-            icon: "👀",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Feedback Collection Tool Guide",
-            description: "How to use Frame.io or other platforms for gathering timestamped comments",
-            icon: "💬",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Version Control Best Practices",
-            description: "Naming conventions and file organization for video revisions",
-            icon: "🔄",
-            link: "REPLACE-WITH-YOUR-LINK"
-        }
-    ],
-    distributionSocial: [
-        {
-            title: "Social Media Guide",
-            description: "Platform-specific requirements and best practices for LinkedIn",
-            icon: "📱",
-            link: "https://docs.google.com/presentation/d/1Eut2KkPCFxVpD5MQObA7J2ceDt_No7s3ijxG3disvD0/edit?usp=sharing"
-        },
-        {
-            title: "How to Post Video On LinkedIn",
-            description: "Step by step video guide",
-            icon: "♿",
-            link: "https://drive.google.com/file/d/1iHmuF3URqVxZvMVgIsr02De7JCjBWeHW/view?usp=drive_link"
-        },
-        {
-            title: "Posting Schedule Template",
-            description: "Content calendar for coordinating video releases across platforms",
-            icon: "📆",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Thumbnail Design Guide",
-            description: "Best practices for creating compelling video thumbnails",
-            icon: "🖼️",
-            link: "REPLACE-WITH-YOUR-LINK"
-        }
-    ],
-    distributionInternal: [
-        {
-            title: "Internal Video Portal Template",
-            description: "Template for creating internal video hubs",
-            icon: "🏢",
-            link: "https://docs.google.com/document/d/1PQ7P7WGjx9RWhejNX7hbydS7UhxvZOeagwttpcxFpEE/edit?usp=sharing"
-        },
-        {
-            title: "Email Campaign Video Guidelines",
-            description: "Best practices for embedding videos in email communications",
-            icon: "📧",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Employee Communications Checklist",
-            description: "Ensuring internal videos meet messaging and branding standards",
-            icon: "✅",
-            link: "REPLACE-WITH-YOUR-LINK"
-        }
-    ],
-    compliance: [
-        {
-            title: "Video Compliance Checklist",
-            description: "Legal and regulatory requirements before publishing video content",
-            icon: "⚖️",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Talent Release Forms",
-            description: "Required documentation for people appearing in videos",
-            icon: "📄",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Copyright & Licensing Guide",
-            description: "Understanding rights for music, stock footage, and other media",
-            icon: "©️",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Data Privacy Decision Tree",
-            description: "Interactive tool to determine if your video content requires privacy review",
-            icon: "🔒",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Brand Usage Guidelines",
-            description: "Approved use of company logos, trademarks, and brand assets",
-            icon: "™️",
-            link: "REPLACE-WITH-YOUR-LINK"
-        }
-    ],
-    troubleshooting: [
-        {
-            title: "Common Technical Issues FAQ",
-            description: "Quick fixes for frequent production and post-production problems",
-            icon: "🔧",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Emergency Contact List",
-            description: "Who to reach for urgent technical or creative support",
-            icon: "📞",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Equipment Repair Request Form",
-            description: "Submit broken or malfunctioning equipment for service",
-            icon: "🛠️",
-            link: "REPLACE-WITH-YOUR-LINK"
-        },
-        {
-            title: "Video File Format Converter Guide",
-            description: "How to convert between different video formats and codecs",
-            icon: "🔄",
-            link: "REPLACE-WITH-YOUR-LINK"
-        }
-    ]
-};
+        // Resource database
+        const resources = {
+            productionPlanning: [
+                {
+                    title: "Video Compass",
+                    description: "Decision-making guide for choosing the best approach, tools, and workflow for your video project",
+                    icon: "🧭",
+                    link: "https://docs.google.com/document/d/1GAKMSGVBC1Lx24mQzo4Gc1JyjSFKaybtCq9_deebDYo/edit?usp=sharing"
+                },
+                {
+                    title: "Video Content Frameworks",
+                    description: "Guidelines for producing video content",
+                    icon: "📋",
+                    link: "https://acrobat.adobe.com/id/urn:aaid:sc:VA6C2:40312da5-b0d8-4956-bd5c-e48578228dbc"
+                },
+                {
+                    title: "Video Tool Guide",
+                    description: "All tools & resources to produce videos",
+                    icon: "💰",
+                    link: "https://microsoft-my.sharepoint.com/:p:/g/personal/lfair_linkedin_biz/IQAX5l5HYifdQIH6eYWmYIclASgRR1fazW-ZaIci4AytbDE?e=fOAR3z"
+                },
+                {
+                    title: "Internal Video Portal Template",
+                    description: "Template for creating internal video hubs and project briefs",
+                    icon: "📝",
+                    link: "https://docs.google.com/document/d/1PQ7P7WGjx9RWhejNX7hbydS7UhxvZOeagwttpcxFpEE/edit?usp=sharing"
+                },
+                {
+                    title: "LinkedIn Filming Locations",
+                    description: "Guide to selecting filming locations at LinkedIn offices",
+                    icon: "📍",
+                    link: "https://docs.google.com/document/d/1lNCfzfeksfqLQfUk4EwYBn3KQwHBUjj5dSHort3FuWE/edit?usp=sharing"
+                },
+                {
+                    title: "Editorial Best Practices",
+                    description: "Guidance from Editorial team",
+                    icon: "📅",
+                    link: "https://drive.google.com/file/d/1Z5xr75NJUuGaV3PQQMYd_RyE7IQs4AJG/view?usp=sharing"
+                }
+            ],
+            productionExecution: [
+                {
+                    title: "Video Scripting Tips",
+                    description: "Tips for effective video scripting",
+                    icon: "🎬",
+                    link: "https://drive.google.com/file/d/1r4VW9YCeLofKDpt3U0NM9qNOgLS0e7Fr/view?usp=drive_link"
+                },
+                {
+                    title: "Video Components",
+                    description: "Video elements to make your production shine",
+                    icon: "📷",
+                    link: "https://drive.google.com/file/d/186wlcfYEJ98-aKLfsDuUqTnhSf8Sx_Nd/view?usp=drive_link"
+                },
+                {
+                    title: "Phone Video Recording Tips",
+                    description: "Get the best out of your phone video recording",
+                    icon: "📱",
+                    link: "https://drive.google.com/file/d/1bcXhpx4ERy-SUrTRu-8RuVvrymSZ0tT4/view?usp=drive_link"
+                },
+                {
+                    title: "Mobile Equipment & Filming Guide",
+                    description: "Essential equipment and techniques for mobile filming",
+                    icon: "🦺",
+                    link: "https://docs.google.com/document/d/18CD_7hdN2WAZdG2wbTeOKGcjIioJsCxOs47KkW1g6mg/edit?usp=sharing"
+                }
+            ],
+            postProductionEditing: [
+                {
+                    title: "Video Editing Tips",
+                    description: "Help on editing when you need it",
+                    icon: "✂️",
+                    link: "https://drive.google.com/file/d/1XX0pvpNgwy45OpmVwDtHMdutWFXbWaMO/view?usp=drive_link"
+                },
+                {
+                    title: "Brand Style Guide",
+                    description: "Visual identity standards for video content including colors, fonts, and logos",
+                    icon: "🎨",
+                    link: "https://microsoft.sharepoint.com/teams/LinkedInBrandHome/Pages/Assets-guidelines.aspx"
+                },
+                {
+                    title: "Music & Audio",
+                    description: "Approved audio assets",
+                    icon: "🎵",
+                    link: "https://microsoft.sharepoint.com/teams/LinkedInBrandHome/Pages/Brand-elements-music.aspx"
+                },
+                {
+                    title: "Brand B-Roll Video",
+                    description: "Great assets from Brand",
+                    icon: "🌈",
+                    link: "https://microsoft.sharepoint.com/teams/LinkedInBrandHome/Pages/search-videos.aspx"
+                }
+            ],
+            distributionSocial: [
+                {
+                    title: "Social Media Guide",
+                    description: "Platform-specific requirements and best practices for LinkedIn",
+                    icon: "📱",
+                    link: "https://docs.google.com/presentation/d/1Eut2KkPCFxVpD5MQObA7J2ceDt_No7s3ijxG3disvD0/edit?usp=sharing"
+                },
+                {
+                    title: "How to Post Video On LinkedIn",
+                    description: "Step by step video guide",
+                    icon: "▶️",
+                    link: "https://drive.google.com/file/d/1iHmuF3URqVxZvMVgIsr02De7JCjBWeHW/view?usp=drive_link"
+                }
+            ]
+        };
 
         // Conversation state
         let conversationState = {
@@ -597,10 +477,8 @@
                 message: "Hi! 👋 I'm here to help you find the right video resources. What do you need help with today?",
                 options: [
                     { text: "🎬 Planning or producing a new video", next: 1 },
-                    { text: "✂️ Editing and post-production", next: 2 },
-                    { text: "📤 Distributing or publishing a video", next: 3 },
-                    { text: "⚖️ Compliance and legal requirements", category: "compliance" },
-                    { text: "🔧 Technical issues or troubleshooting", category: "troubleshooting" }
+                    { text: "✂️ Editing and post-production", category: "postProductionEditing" },
+                    { text: "📤 Distributing or publishing a video", category: "distributionSocial" }
                 ]
             },
             1: {
@@ -608,20 +486,6 @@
                 options: [
                     { text: "📋 Planning stage - I need to prep", category: "productionPlanning" },
                     { text: "🎥 Ready to shoot - I need on-set guidance", category: "productionExecution" }
-                ]
-            },
-            2: {
-                message: "Got it! What part of post-production are you working on?",
-                options: [
-                    { text: "✂️ Editing the video", category: "postProductionEditing" },
-                    { text: "👀 Review and approval process", category: "postProductionReview" }
-                ]
-            },
-            3: {
-                message: "Where are you planning to publish this video?",
-                options: [
-                    { text: "📱 Social media platforms", category: "distributionSocial" },
-                    { text: "🏢 Internal communications", category: "distributionInternal" }
                 ]
             }
         };
@@ -674,11 +538,7 @@
                 productionPlanning: "Production Planning",
                 productionExecution: "Production Execution",
                 postProductionEditing: "Post-Production Editing",
-                postProductionReview: "Post-Production Review",
-                distributionSocial: "Distribution - Social Media",
-                distributionInternal: "Distribution - Internal",
-                compliance: "Compliance & Legal",
-                troubleshooting: "Troubleshooting & Support"
+                distributionSocial: "Distribution - Social Media"
             };
             
             const resourcesSection = document.createElement('div');
@@ -699,19 +559,14 @@
                 const card = document.createElement('div');
                 card.className = 'resource-card';
                 
-                const isPlaceholder = resource.link.includes('REPLACE-WITH-YOUR-LINK');
-                
                 card.innerHTML = `
                     <div class="resource-header">
                         <div class="resource-icon">${resource.icon}</div>
                         <div class="resource-content">
-                            <div class="resource-title">
-                                ${resource.title}
-                                ${isPlaceholder ? '<span class="badge">Demo</span>' : ''}
-                            </div>
+                            <div class="resource-title">${resource.title}</div>
                             <div class="resource-description">${resource.description}</div>
                             <a href="${resource.link}" class="resource-link" target="_blank" rel="noopener">
-                                ${isPlaceholder ? '📝 Add Your Link' : '📄 View Resource'} →
+                                📄 View Resource →
                             </a>
                         </div>
                     </div>
